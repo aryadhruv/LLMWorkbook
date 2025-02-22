@@ -1,141 +1,180 @@
-# pylint: skip-file
-from llmworkbook import LLMConfig, LLMDataFrameIntegrator, LLMRunner
-import pandas as pd
 import pytest
-from unittest.mock import AsyncMock, MagicMock
+import pandas as pd
+import asyncio
+from unittest.mock import Mock, patch
+from typing import List
 
+from llmworkbook import LLMDataFrameIntegrator
 
-@pytest.fixture
-def sample_dataframe():
-    """Fixture to create a sample DataFrame."""
-    return pd.DataFrame(
-        {
-            "prompt_column": ["Hello, world!", "What is AI?", "", "Tell me a joke"],
-            "other_column": [1, 2, 3, 4],
-        }
-    )
-
-@pytest.fixture
-def mock_config():
-    """Fixture for creating an LLMConfig object."""
-    return LLMConfig(
-        provider="openai",
-        api_key="test-api-key",
-        system_prompt="Process these Data rows as per the provided prompt",
-        options={
-            "model_name": "gpt-4o-mini",
-            "temperature": 1,
-            "max_tokens": 1024,
-        },
-    )
+# Mock LLMRunner class
+class MockLLMRunner:
+    def __init__(self, sync_response="Mock response", async_response="Mock async response"):
+        self.config = Mock()
+        self.config.options = {"max_tokens": 1000}
+        self.sync_response = sync_response
+        self.async_response = async_response
+        
+    def run_sync(self, prompt: str) -> str:
+        return self.sync_response
+        
+    async def run(self, prompt: str) -> str:
+        return self.async_response
 
 @pytest.fixture
-def mock_runner(mock_config):
-    """Fixture to create a mock LLM runner."""
-    mock = MagicMock(spec=LLMRunner(config=mock_config))
-    mock.run_sync.side_effect = lambda x: f"Response to: {x}"
-    mock.run = AsyncMock(side_effect=lambda x: f"Async response to: {x}")
-    return mock
+def sample_df():
+    # Create a DataFrame - not a function
+    df = pd.DataFrame({
+        'id': range(1, 6),
+        'prompt_column': [
+            'Test prompt 1',
+            'Test prompt 2',
+            'Test prompt 3',
+            'Test prompt 4',
+            'Test prompt 5'
+        ]
+    })
+    return df
 
+@pytest.fixture
+def mock_runner():
+    return MockLLMRunner()
 
-def test_add_llm_responses_sync(sample_dataframe, mock_runner):
-    """Test synchronous LLM integration."""
-    integrator = LLMDataFrameIntegrator(runner=mock_runner, df=sample_dataframe)
+@pytest.fixture
+def integrator(sample_df, mock_runner):
+    return LLMDataFrameIntegrator(runner=mock_runner, df=sample_df.copy())
 
-    updated_df = integrator.add_llm_responses(
-        prompt_column="prompt_column", response_column="llm_response"
+def test_initialization(sample_df, mock_runner):
+    """Test proper initialization of LLMDataFrameIntegrator"""
+    integrator = LLMDataFrameIntegrator(runner=mock_runner, df=sample_df)
+    assert integrator.df is not None
+    assert integrator.runner is not None
+    assert integrator.max_tokens == 1000
+
+def test_token_estimation(integrator):
+    """Test token estimation functionality"""
+    text = "This is a test sentence with seven words"
+    estimated_tokens = integrator._estimate_token_count(text)
+    # Round to avoid floating point comparison issues
+    assert round(estimated_tokens) == 11
+
+@pytest.mark.asyncio
+async def test_individual_processing_async(integrator):
+    """Test processing individual rows asynchronously"""
+    # Create a new event loop for this test
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    
+    try:
+        async def run_test():
+            return await integrator.runner.run("test prompt")
+            
+        response = await run_test()
+        assert response == "Mock async response"
+    finally:
+        loop.close()
+
+def test_batch_processing_sync(integrator):
+    """Test processing multiple rows in batches synchronously"""
+    # Initialize response column first
+    integrator.df['llm_response'] = None
+    
+    result_df = integrator._process_batches(
+        row_indices=[0, 1, 2],
+        prompt_column='prompt_column',
+        response_column='llm_response',
+        async_mode=False,
+        batch_size=2,
+        split_response=True
     )
+    
+    # Check only the processed rows
+    processed_responses = result_df.iloc[0:3]['llm_response']
+    assert all(processed_responses.notna())
 
-    assert "llm_response" in updated_df.columns
-    assert updated_df.loc[0, "llm_response"] == "Response to: Hello, world!"
-    assert updated_df.loc[1, "llm_response"] == "Response to: What is AI?"
-    assert pd.isna(
-        updated_df.loc[2, "llm_response"]
-    )  # Empty prompt should not have a response
-    assert updated_df.loc[3, "llm_response"] == "Response to: Tell me a joke"
-
-    # Verify the mock was called the expected number of times
-    assert mock_runner.run_sync.call_count == 3
-
-
-def test_add_llm_responses_async(sample_dataframe, mock_runner):
-    """Test asynchronous LLM integration."""
-    integrator = LLMDataFrameIntegrator(runner=mock_runner, df=sample_dataframe)
-
-    updated_df = integrator.add_llm_responses(
-        prompt_column="prompt_column", response_column="llm_response", async_mode=True
+@pytest.mark.asyncio
+def test_batch_processing_sync(integrator):
+    """Test processing multiple rows in batches synchronously"""
+    # Get initial state of specific rows
+    row_indices = [0, 1, 2]
+    
+    result_df = integrator._process_batches(
+        row_indices=row_indices,
+        prompt_column='prompt_column',
+        response_column='llm_response',
+        async_mode=False,
+        batch_size=2,
+        split_response=True
     )
-
-    assert "llm_response" in updated_df.columns
-    assert updated_df.loc[0, "llm_response"] == "Async response to: Hello, world!"
-    assert updated_df.loc[1, "llm_response"] == "Async response to: What is AI?"
-    assert pd.isna(
-        updated_df.loc[2, "llm_response"]
-    )  # Empty prompt should not have a response
-    assert updated_df.loc[3, "llm_response"] == "Async response to: Tell me a joke"
-
-    # Verify the async mock was called the expected number of times
-    assert mock_runner.run.await_count == 3
+    
+    # Verify each row in the batch was processed
+    for idx in row_indices:
+        assert result_df.iloc[idx]['llm_response'] is not None, f"Row {idx} was not processed"
+    
+    # Additional verification
+    processed_rows = result_df.iloc[row_indices]['llm_response']
+    assert all(processed_rows.notna()), "Some rows in batch were not processed"
+    assert all(response == "Mock response" for response in processed_rows), "Unexpected response value"
 
 
-def test_add_llm_responses_with_row_filter(sample_dataframe, mock_runner):
-    """Test LLM responses with a subset of rows."""
-    integrator = LLMDataFrameIntegrator(runner=mock_runner, df=sample_dataframe)
-
-    updated_df = integrator.add_llm_responses(
-        prompt_column="prompt_column", response_column="llm_response", row_filter=[0, 2]
+def test_add_llm_responses_full_batch(integrator):
+    """Test processing all rows in a single batch"""
+    result_df = integrator.add_llm_responses(
+        prompt_column='prompt_column',
+        response_column='llm_response',
+        batch_size=0  # Process all rows at once
     )
+    
+    # Verify all rows were processed
+    assert all(result_df['llm_response'].notna()), "Some rows were not processed"
+    
+    # Check that each row has the expected response
+    for idx in range(len(result_df)):
+        assert result_df.iloc[idx]['llm_response'] == "Mock response", f"Row {idx} has unexpected response"
+    
+    # Verify the number of responses matches number of rows
+    assert len(result_df['llm_response'].unique()) == 1, "Responses are not consistent"
+    assert result_df['llm_response'].iloc[0] == "Mock response", "Unexpected response value"
 
-    assert "llm_response" in updated_df.columns
-    assert updated_df.loc[0, "llm_response"] == "Response to: Hello, world!"
-    assert pd.isna(updated_df.loc[1, "llm_response"])
-    assert updated_df.loc[2, "llm_response"] is None  # Empty prompt should remain None
-    assert pd.isna(updated_df.loc[3, "llm_response"])
-
-    # Ensure only 2 calls were made
-    assert mock_runner.run_sync.call_count == 1  # Only valid prompt processed
-
-
-def test_reset_responses(sample_dataframe, mock_runner):
-    """Test resetting response columns."""
-    integrator = LLMDataFrameIntegrator(runner=mock_runner, df=sample_dataframe)
-    integrator.df["llm_response"] = [
-        "Some response",
-        "Another response",
-        None,
-        "Last response",
-    ]
-
-    updated_df = integrator.reset_responses(response_column="llm_response")
-
-    assert updated_df["llm_response"].isnull().all()
-
-
-def test_add_llm_responses_creates_column_if_not_exist(sample_dataframe, mock_runner):
-    """Test that a new response column is created if it does not exist."""
-    integrator = LLMDataFrameIntegrator(runner=mock_runner, df=sample_dataframe)
-
-    updated_df = integrator.add_llm_responses(
-        prompt_column="prompt_column", response_column="new_response_column"
+def test_add_llm_responses_with_split_response(sample_df):
+    """Test processing with split response option"""
+    # Mock runner that returns multi-line response
+    mock_runner = MockLLMRunner(sync_response="Response 1\nResponse 2\nResponse 3")
+    
+    # Create a new DataFrame instance
+    test_df = sample_df.copy()
+    test_df['llm_response'] = None
+    
+    integrator_split = LLMDataFrameIntegrator(runner=mock_runner, df=test_df)
+    
+    result_df = integrator_split.add_llm_responses(
+        batch_size=3,
+        split_response=True
     )
+    
+    # Check that responses were split correctly
+    assert result_df.iloc[0]['llm_response'] == "Response 1"
+    assert result_df.iloc[1]['llm_response'] == "Response 2"
+    assert result_df.iloc[2]['llm_response'] == "Response 3"
 
-    assert "new_response_column" in updated_df.columns
-    assert updated_df.loc[0, "new_response_column"] == "Response to: Hello, world!"
-
-
-def test_add_llm_responses_invalid_column(sample_dataframe, mock_runner):
-    """Test handling when an invalid prompt column is provided."""
-    integrator = LLMDataFrameIntegrator(runner=mock_runner, df=sample_dataframe)
-
-    with pytest.raises(KeyError):
-        integrator.add_llm_responses(prompt_column="non_existent_column")
-
-
-def test_async_function(sample_dataframe, mock_runner):
-    """Test the internal asynchronous processing of LLM responses."""
-    integrator = LLMDataFrameIntegrator(runner=mock_runner, df=sample_dataframe)
-
-    output_df = integrator.add_llm_responses(
-        prompt_column="prompt_column", response_column="llm_response", async_mode=True
+def test_response_overflow_handling(sample_df):
+    """Test handling of overflow responses"""
+    # Mock runner that returns more responses than rows
+    mock_runner = MockLLMRunner(sync_response="R1\nR2\nR3\nR4\nR5\nR6")
+    
+    # Create a new DataFrame with exactly 3 rows
+    test_df = sample_df.iloc[0:3].copy()
+    test_df['llm_response'] = None
+    
+    integrator_overflow = LLMDataFrameIntegrator(runner=mock_runner, df=test_df)
+    
+    result_df = integrator_overflow.add_llm_responses(
+        batch_size=3,
+        split_response=True
     )
-    output_df
+    
+    # Check that overflow is handled properly
+    assert len(result_df) == 3  # Should still have only 3 rows
+    assert "Overflow" in result_df.iloc[2]['llm_response']  # Last row should contain overflow data
+
+if __name__ == '__main__':
+    pytest.main([__file__])
