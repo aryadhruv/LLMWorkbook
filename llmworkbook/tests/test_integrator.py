@@ -85,27 +85,7 @@ async def test_individual_processing_async(integrator):
     finally:
         loop.close()
 
-
 def test_batch_processing_sync(integrator):
-    """Test processing multiple rows in batches synchronously"""
-    # Initialize response column first
-    integrator.df["llm_response"] = None
-
-    result_df = integrator._process_batches(
-        row_indices=[0, 1, 2],
-        prompt_column="prompt_column",
-        response_column="llm_response",
-        async_mode=False,
-        batch_size=2,
-        split_response=True,
-    )
-
-    # Check only the processed rows
-    processed_responses = result_df.iloc[0:3]["llm_response"]
-    assert all(processed_responses.notna())
-
-
-def test_batch_processing_sync_all_rows(integrator):
     """Test processing multiple rows in batches synchronously"""
     # Get initial state of specific rows
     row_indices = [0, 1, 2]
