@@ -18,6 +18,16 @@
 - Run list of prompts easily.
 - Get started with easy to follow Examples
 
+
+---
+
+🚀 New Feature: Batch & Row-wise Processing
+LLMWorkbook now supports flexible prompt processing with batch mode and row-wise mode:
+
+✔ Row-wise Processing (Default) – Each row is sent individually to the LLM.
+✔ Batch Processing – Multiple rows are grouped together and sent as one request for efficiency.
+✔ Automatic Token Limit Handling – Ensures batch prompts stay within max_tokens limits.
+
 ---
 
 ## **Installation**
@@ -115,6 +125,7 @@ Detailed documentation for each module is available in the [Documentation](docs)
     [Gpt4All](docs/Providers/Gpt4All.md)
     [Ollama](docs/Providers/Ollama.md)
 - [CLI Useage](docs/CLI%20Usage.md) file.
+- [LLMDataFrameIntegrator - Row/Batch Processing](docs/Batch%20and%20Row%20Processing.md)
 
 
 
@@ -122,7 +133,7 @@ Detailed documentation for each module is available in the [Documentation](docs)
 
 [Homepage](https://github.com/aryadhruv/LLMWorkbook)
 [Repository](https://github.com/aryadhruv/LLMWorkbook)
-[Documentation](https://github.com/aryadhruv/LLMWorkbook/tree/main/Docs)
+[Documentation](https://github.com/aryadhruv/LLMWorkbook/tree/main/docs)
 [Examples](https://github.com/aryadhruv/LLMWorkbook/tree/main/Examples)
 [Bug Tracker](https://github.com/aryadhruv/LLMWorkbook/issues)
 [Issues](https://github.com/aryadhruv/LLMWorkbook/issues)

@@ -35,7 +35,6 @@ class LLMConfig:  # pylint: disable=too-few-public-methods
         default_options = {
             "model": "gpt-4o-mini",
             "temperature": 0.7,
-            "max_tokens": 1024,
         }
 
         # Update defaults with provided options
