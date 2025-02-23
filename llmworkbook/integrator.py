@@ -28,7 +28,7 @@ class LLMDataFrameIntegrator:
             warnings.warn(
                 "Warning: max_tokens is not set in LLMConfig. "
                 "Proceeding without validation, but API may reject large requests.",
-                UserWarning
+                UserWarning,
             )
 
     def _estimate_token_count(self, text: str) -> int:
@@ -70,7 +70,7 @@ class LLMDataFrameIntegrator:
         row_filter: Optional[List[int]] = None,
         async_mode: Optional[int] = False,
         batch_size: Optional[int] = None,  # If None, default to row-wise processing
-        split_response : Optional[int] = False,
+        split_response: Optional[int] = False,
     ) -> pd.DataFrame:
         """
         Runs the LLM on each row's `prompt_column` text and stores the response in
@@ -83,12 +83,12 @@ class LLMDataFrameIntegrator:
             row_filter (List[int], optional): Subset of row indices to run.
                                              If None, runs on all rows.
             async_mode (bool, optional): If True, uses async calls to LLM. Otherwise uses sync.
-            batch_size (Optional[int], optional): 
+            batch_size (Optional[int], optional):
                 - If `None`, processes row by row (default behavior).
                 - If `batch_size > 1`, processes multiple rows together in a batch.
                 - If `batch_size=0`, processes all rows in a **single LLM request**.
             split_response (bool, optional): If true response from multiline response from LLM will be into rows.
-            Otherwise, a single response per batch will be presented. 
+            Otherwise, a single response per batch will be presented.
 
         Returns:
             pd.DataFrame: The updated DataFrame with responses.
@@ -103,15 +103,26 @@ class LLMDataFrameIntegrator:
 
         # Default to row-wise processing if batch_size is None
         if batch_size is None:
-            return self._process_individually(row_indices, prompt_column, response_column, async_mode)
+            return self._process_individually(
+                row_indices, prompt_column, response_column, async_mode
+            )
 
         # If batch_size=0, process all rows at once
         if batch_size == 0:
             batch_size = len(row_indices)
 
-        return self._process_batches(row_indices, prompt_column, response_column, async_mode, batch_size, split_response)
+        return self._process_batches(
+            row_indices,
+            prompt_column,
+            response_column,
+            async_mode,
+            batch_size,
+            split_response,
+        )
 
-    def _process_individually(self, row_indices, prompt_column, response_column, async_mode):
+    def _process_individually(
+        self, row_indices, prompt_column, response_column, async_mode
+    ):
         """
         Processes rows one by one.
         """
@@ -125,11 +136,22 @@ class LLMDataFrameIntegrator:
                 self.df.at[idx, response_column] = response
         return self.df
 
-    def _process_batches(self, row_indices, prompt_column, response_column, async_mode, batch_size, split_response):
+    def _process_batches(
+        self,
+        row_indices,
+        prompt_column,
+        response_column,
+        async_mode,
+        batch_size,
+        split_response,
+    ):
         """
         Processes multiple rows at once while ensuring token limit is not exceeded.
         """
-        batches = [row_indices[i : i + batch_size] for i in range(0, len(row_indices), batch_size)]
+        batches = [
+            row_indices[i : i + batch_size]
+            for i in range(0, len(row_indices), batch_size)
+        ]
 
         for batch in batches:
             prompts = [str(self.df.at[idx, prompt_column]) for idx in batch]
@@ -140,7 +162,9 @@ class LLMDataFrameIntegrator:
             if async_mode:
                 responses = asyncio.run(self._run_batch_async(batch_prompt))
             else:
-                responses = self.runner.run_sync(batch_prompt)  # Single LLM request for batch
+                responses = self.runner.run_sync(
+                    batch_prompt
+                )  # Single LLM request for batch
 
             # Handle multi-line responses if the LLM returns one response per row
             if isinstance(responses, str):
@@ -148,9 +172,11 @@ class LLMDataFrameIntegrator:
 
             # Handle Overflow (if LLM returns more responses than expected)
             if len(response_list) > len(batch):
-                response_list[len(batch) - 1] += " | Overflow: " + " <sep> ".join(response_list[len(batch) - 1:])
+                response_list[len(batch) - 1] += " | Overflow: " + " <sep> ".join(
+                    response_list[len(batch) - 1 :]
+                )
 
-            response_list = response_list[:len(batch)]
+            response_list = response_list[: len(batch)]
 
             # Assign responses to rows
             for idx, response in zip(batch, response_list):
@@ -168,7 +194,7 @@ class LLMDataFrameIntegrator:
         Returns:
             List[str]: List of LLM responses.
         """
-        response = await self.runner.run(batch_prompt) 
+        response = await self.runner.run(batch_prompt)
         return response
 
     def reset_responses(self, response_column: str = "llm_response") -> pd.DataFrame:

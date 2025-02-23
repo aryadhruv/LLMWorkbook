@@ -114,7 +114,7 @@ async def call_llm_gpt4all(config, prompt: str, url: Optional[str] = None) -> st
         "messages": messages,
     }
 
-    #TODO - Expand options for OpenAI
+    # TODO - Expand options for OpenAI
     valid_options = ["max_tokens", "temperature"]
     for option in valid_options:
         if option in config.options:
