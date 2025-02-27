@@ -177,7 +177,6 @@ class WrapDataFrame(BaseLLMWrapper):
 
         print("[bold magenta]Dataframe wrapper init...")
 
-
     def _validate_columns(self) -> None:
         """
         Validate that the required columns exist in the DataFrame.
