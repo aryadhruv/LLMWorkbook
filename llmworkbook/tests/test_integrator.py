@@ -85,6 +85,7 @@ async def test_individual_processing_async(integrator):
     finally:
         loop.close()
 
+
 def test_batch_processing_sync(integrator):
     """Test processing multiple rows in batches synchronously"""
     # Get initial state of specific rows

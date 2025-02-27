@@ -107,15 +107,30 @@ class LLMDataFrameIntegrator:
 
         # Default to row-wise processing if batch_size is None
         if batch_size is None:
-            return self._process_individually(row_indices, prompt_column, response_column, async_mode)
+            return self._process_individually(
+                row_indices, prompt_column, response_column, async_mode
+            )
 
         # If batch_size=0, process all rows at once
         if batch_size == 0:
             batch_size = len(row_indices)
 
-        return self._process_batches(row_indices, prompt_column, response_column, async_mode, batch_size, split_response)
+        return self._process_batches(
+            row_indices,
+            prompt_column,
+            response_column,
+            async_mode,
+            batch_size,
+            split_response,
+        )
 
-    def _process_individually(self, row_indices: List[int], prompt_column: str, response_column: str, async_mode: bool) -> pd.DataFrame:
+    def _process_individually(
+        self,
+        row_indices: List[int],
+        prompt_column: str,
+        response_column: str,
+        async_mode: bool,
+    ) -> pd.DataFrame:
         """
         Processes rows one by one.
         """
@@ -141,7 +156,10 @@ class LLMDataFrameIntegrator:
         """
         Processes multiple rows at once while ensuring token limit is not exceeded.
         """
-        batches = [row_indices[i : i + batch_size] for i in range(0, len(row_indices), batch_size)]
+        batches = [
+            row_indices[i : i + batch_size]
+            for i in range(0, len(row_indices), batch_size)
+        ]
 
         for batch in track(batches, description="Processing batches..."):
             prompts = [str(self.df.at[idx, prompt_column]) for idx in batch]
@@ -152,7 +170,9 @@ class LLMDataFrameIntegrator:
             if async_mode:
                 responses = asyncio.run(self._run_batch_async(batch_prompt))
             else:
-                responses = self.runner.run_sync(batch_prompt)  # Single LLM request for batch
+                responses = self.runner.run_sync(
+                    batch_prompt
+                )  # Single LLM request for batch
 
             # Process responses to get a list of responses for each prompt
             if isinstance(responses, str):
@@ -165,7 +185,9 @@ class LLMDataFrameIntegrator:
             # Handle overflow: if more responses are returned than expected,
             # combine the overflow into the last expected response.
             if len(response_list) > len(batch):
-                response_list[len(batch) - 1] += " | Overflow: " + " <sep> ".join(response_list[len(batch) - 1 :])
+                response_list[len(batch) - 1] += " | Overflow: " + " <sep> ".join(
+                    response_list[len(batch) - 1 :]
+                )
             response_list = response_list[: len(batch)]
 
             # Assign responses to rows
@@ -201,7 +223,9 @@ class LLMDataFrameIntegrator:
             self.df[response_column] = None
         return self.df
 
-    def _run_async_prompts(self, row_indices: List[int], prompt_column: str, response_column: str) -> pd.DataFrame:
+    def _run_async_prompts(
+        self, row_indices: List[int], prompt_column: str, response_column: str
+    ) -> pd.DataFrame:
         """
         Helper method that runs LLM calls asynchronously.
 
@@ -209,13 +233,19 @@ class LLMDataFrameIntegrator:
         the DataFrame, calls an asynchronous runner to get a response, updates the DataFrame,
         and updates the progress bar accordingly.
         """
-        
-        async def process_row(idx: Union[int, str], progress: Progress, task_id: str) -> None:
+
+        async def process_row(
+            idx: Union[int, str], progress: Progress, task_id: str
+        ) -> None:
             prompt_value = self.df.at[idx, prompt_column]
             if prompt_value:
                 response = await self.runner.run(str(prompt_value))
                 self.df.at[idx, response_column] = response
-            progress.update(task_id, advance=1, description="Processing rows...", )
+            progress.update(
+                task_id,
+                advance=1,
+                description="Processing rows...",
+            )
 
         async def main():
             progress = Progress(
@@ -225,12 +255,14 @@ class LLMDataFrameIntegrator:
                 console=console,
                 transient=False,
             )
-            
-            task_id = progress.add_task(description="Processing rows...", total=len(row_indices))
+
+            task_id = progress.add_task(
+                description="Processing rows...", total=len(row_indices)
+            )
             with progress:
                 tasks = [process_row(idx, progress, task_id) for idx in row_indices]
                 await asyncio.gather(*tasks)
-        
+
         # Run the main async function and wait for it to complete
         asyncio.run(main())
         return self.df
