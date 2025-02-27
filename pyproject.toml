@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "llmworkbook"
-version = "0.2.0"
+version = "0.2.1"
 description = "Effortlessly harness the power of LLMs on Excel and DataFrames—seamless, smart, and efficient!"
 authors = ["dhruv <dhruv166arya@gmail.com>"]
 license = "MIT"
@@ -38,6 +38,7 @@ openai = "^1.59.3"
 python-dotenv = "^1.0.1"
 nest-asyncio = "^1.6.0"
 openpyxl = "^3.1.5"
+rich = "^13.9.4"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^3.3.3"
