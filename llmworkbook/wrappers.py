@@ -16,6 +16,7 @@ from typing import List, Optional, Union
 import numpy as np
 from pandas import DataFrame, Series
 from pandas.errors import InvalidColumnName
+from rich import print
 
 
 class BaseLLMWrapper(ABC):
@@ -100,6 +101,7 @@ class BaseLLMWrapper(ABC):
         Returns:
             DataFrame: A DataFrame with transformed (wrapped) content.
         """
+        print("[bold green]Data Wrapped.")
         return self._generate_transformed_content()
 
     def transform_and_export(self, file_path: str, file_format: str = "excel") -> None:
@@ -172,6 +174,9 @@ class WrapDataFrame(BaseLLMWrapper):
         self.use_column_header = use_column_header
         self.column_header_index = column_header_index
         self._validate_columns()
+
+        print("[bold magenta]Dataframe wrapper init...")
+
 
     def _validate_columns(self) -> None:
         """
@@ -279,6 +284,8 @@ class WrapDataArray(BaseLLMWrapper):
         column_names = [f"col_{i}" for i in range(self.arr.shape[1])]
         self.temp_df = DataFrame(self.arr, columns=column_names)
 
+        print("[bold magenta]Data Array wrapper init...")
+
     def _validate_indices(self) -> None:
         """
         Validate that the required indices exist in the array.
@@ -343,6 +350,8 @@ class WrapPromptList(BaseLLMWrapper):
             prompts (List[str]): A list of prompt strings.
         """
         self.prompts = prompts
+
+        print("[bold magenta]Prompt wrapper init...")
 
     def _prepare_data_for_wrapping(self) -> DataFrame:
         """
