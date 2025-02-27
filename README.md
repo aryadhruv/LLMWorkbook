@@ -22,8 +22,10 @@
 ---
 
 🚀 New Feature: Batch & Row-wise Processing
-LLMWorkbook now supports flexible prompt processing with batch mode and row-wise mode:
+LLMWorkbook v0.2.1 now shows progress bars 🦦:
 
+✔ Rich Console Progress bar
+✔ Row-wise Processing (Default) – Each row is sent individually to the LLM.
 ✔ Row-wise Processing (Default) – Each row is sent individually to the LLM.
 ✔ Batch Processing – Multiple rows are grouped together and sent as one request for efficiency.
 ✔ Automatic Token Limit Handling – Ensures batch prompts stay within max_tokens limits.
