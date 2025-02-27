@@ -204,13 +204,18 @@ class LLMDataFrameIntegrator:
     def _run_async_prompts(self, row_indices: List[int], prompt_column: str, response_column: str) -> pd.DataFrame:
         """
         Helper method that runs LLM calls asynchronously.
+
+        For each row index in `row_indices`, this function retrieves the prompt from
+        the DataFrame, calls an asynchronous runner to get a response, updates the DataFrame,
+        and updates the progress bar accordingly.
         """
-        async def process_row(idx: Union[int, str]) -> None:
-            print(idx)
+        
+        async def process_row(idx: Union[int, str], progress: Progress, task_id: str) -> None:
             prompt_value = self.df.at[idx, prompt_column]
             if prompt_value:
                 response = await self.runner.run(str(prompt_value))
                 self.df.at[idx, response_column] = response
+            progress.update(task_id, advance=1, description="Processing rows...", )
 
         async def main():
             progress = Progress(
@@ -218,14 +223,14 @@ class LLMDataFrameIntegrator:
                 "[progress.percentage]{task.percentage:>3.0f}%",
                 TimeRemainingColumn(),
                 console=console,
+                transient=False,
             )
-            task_id = progress.add_task("[cyan]Processing async tasks...", total=len(row_indices))
+            
+            task_id = progress.add_task(description="Processing rows...", total=len(row_indices))
             with progress:
-                tasks = [process_row(idx) for idx in row_indices]
-
-                for coro in asyncio.as_completed(tasks):
-                    await coro
-                    progress.update(task_id, advance=1)
-
+                tasks = [process_row(idx, progress, task_id) for idx in row_indices]
+                await asyncio.gather(*tasks)
+        
+        # Run the main async function and wait for it to complete
         asyncio.run(main())
         return self.df
