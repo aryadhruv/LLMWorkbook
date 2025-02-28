@@ -33,7 +33,7 @@ config = {
         #Output format
         'response_format' : ...,
     },
-'''
+```
 
 - **`api_key`**  
   - **Description:** Your OpenAI API key. If not provided in the config, the code will attempt to read it from the environment variable `OPENAI_API_KEY`.
