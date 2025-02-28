@@ -1,5 +1,5 @@
 # pylint: skip-file
-from ..utils import sanitize_prompt
+from ..utilities import sanitize_prompt
 
 
 def test_sanitize_prompt():
