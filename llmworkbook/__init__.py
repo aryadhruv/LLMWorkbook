@@ -18,4 +18,3 @@ __all__ = [
     "sanitize_prompt",
     "unpack_json_responses",
 ]
-

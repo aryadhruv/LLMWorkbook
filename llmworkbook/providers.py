@@ -4,7 +4,6 @@ Provider (LLM) module that contains routing to various LLM providers that LLMWOR
 
 import os
 from typing import Optional
-import warnings
 import aiohttp
 
 from .config import LLMConfig
@@ -14,7 +13,7 @@ from openai import OpenAI
 from rich import print
 
 
-async def call_llm_openai(config : LLMConfig, prompt: str) -> str:
+async def call_llm_openai(config: LLMConfig, prompt: str) -> str:
     """
     Calls OpenAI's completion/chat endpoint asynchronously.
 
@@ -26,8 +25,10 @@ async def call_llm_openai(config : LLMConfig, prompt: str) -> str:
     """
 
     if config.options.get("model_name"):
-        print("[bold red]⚠️ 'model_name' is deprecated![/bold red] Use [green]'model'[/green] instead.")
-        raise DeprecationWarning ("'model_name' is deprecated, use 'model' instead.")
+        print(
+            "[bold red]⚠️ 'model_name' is deprecated![/bold red] Use [green]'model'[/green] instead."
+        )
+        raise DeprecationWarning("'model_name' is deprecated, use 'model' instead.")
 
     messages = []
     if config.system_prompt:
@@ -39,7 +40,7 @@ async def call_llm_openai(config : LLMConfig, prompt: str) -> str:
     options = {
         "model": config.options.get("model", "gpt-4o-mini"),
         "messages": messages,
-        }
+    }
     options.update({k: v for k, v in config.options.items() if k not in options})
 
     completion = client.chat.completions.create(**options)

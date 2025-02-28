@@ -1,12 +1,8 @@
-
 import asyncio
 from functools import wraps
 from typing import Callable, Coroutine
 
 import nest_asyncio
-import numpy as np
-import pandas as pd
-
 
 
 def sync_to_async(func: Coroutine) -> Callable:

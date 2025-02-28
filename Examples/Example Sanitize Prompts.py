@@ -24,7 +24,7 @@ print(clean_list)
 # Output: ['Tell me about Python', "alert('XSS')", 'Analyze the following data: 1, 2, 3, 4, 5']
 
 # Example 3: Sanitizing a pandas DataFrame column
-import pandas as pd
+import pandas as pd # noqa: E402
 
 # Create a sample DataFrame with prompts
 df = pd.DataFrame({
@@ -46,7 +46,7 @@ print(df)
 # 2        3               What is the answer to [4+5]?     What is the answer to 45?
 
 #Example 4: Sanitizing a numpy array
-import numpy as np
+import numpy as np  # noqa: E402
 
 # Create an array of prompts
 prompt_array = np.array([
