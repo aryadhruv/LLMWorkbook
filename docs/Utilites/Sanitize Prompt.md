@@ -32,42 +32,6 @@ def sanitize_prompt(prompt: Union[str, List[str], pd.Series, np.ndarray]) -> Uni
     Returns:
         Sanitized version of the input in the same format
     """
-    # Helper function for single string sanitization
-    def _sanitize_single(text: str) -> str:
-        if not isinstance(text, str):
-            return str(text)
-            
-        # Remove extra whitespace
-        text = text.strip()
-        
-        # Remove special characters that could cause issues
-        text = re.sub(r'[\\`*_{}[\]()#+.!$]', '', text)
-            
-        # Replace potentially harmful patterns
-        text = text.replace("javascript:", "")
-        text = text.replace("<script>", "")
-        
-        # Normalize whitespace
-        text = re.sub(r'\s+', ' ', text)
-        
-        return text
-    
-    # Handle different input types
-    if isinstance(prompt, str):
-        return _sanitize_single(prompt)
-    
-    elif isinstance(prompt, list):
-        return [_sanitize_single(item) for item in prompt]
-    
-    elif isinstance(prompt, pd.Series):
-        return prompt.apply(_sanitize_single)
-    
-    elif isinstance(prompt, np.ndarray):
-        vectorized_sanitize = np.vectorize(_sanitize_single)
-        return vectorized_sanitize(prompt)
-    
-    else:
-        raise TypeError(f"Unsupported input type: {type(prompt)}")
 ```
 
 ---
