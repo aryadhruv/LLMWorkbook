@@ -21,10 +21,10 @@
 
 ---
 
-LLMWorkbook v0.2.2 new utilities 🦦:
+## LLMWorkbook v0.2.2 new utilities 🦦:
 ✔ New Utilities - Sanitize prompts, unpack json response
 ✔ Rich Console Progress bar
-✔ Row-wise Processing (Default) – Each row is sent individually to the LLM.
+✔ Row-wise or batch-wise Processing – Choose what meets your need.
 
 ---
 
