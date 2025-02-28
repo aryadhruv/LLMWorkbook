@@ -21,10 +21,10 @@
 
 ---
 
-🚀 New Feature: Batch & Row-wise Processing
+LLMWorkbook v0.2.2 new utilities 🦦:
 ✔ New Utilities - Sanitize prompts, unpack json response
+✔ Rich Console Progress bar
 ✔ Row-wise Processing (Default) – Each row is sent individually to the LLM.
-✔ Batch Processing – Multiple rows are grouped together and sent as one request for efficiency.
 
 ---
 

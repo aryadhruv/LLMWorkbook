@@ -3,6 +3,7 @@ Configuration module for LLMs.
 """
 
 from typing import Optional, Dict
+from rich import print
 
 
 class LLMConfig:  # pylint: disable=too-few-public-methods
@@ -42,6 +43,7 @@ class LLMConfig:  # pylint: disable=too-few-public-methods
         self.api_key = api_key
         self.system_prompt = system_prompt
         self.options = {**default_options, **(options or {})}
+        print("[bold green]Configurations set.")
 
     def to_dict(self) -> Dict:
         """

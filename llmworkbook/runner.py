@@ -5,6 +5,7 @@ Runner module to handle the actual LLM call.
 from .config import LLMConfig
 from .utils import sync_to_async
 from .providers import call_llm_ollama, call_llm_openai, call_llm_gpt4all
+from rich import print
 
 
 class LLMRunner:
@@ -18,6 +19,7 @@ class LLMRunner:
             config (LLMConfig): The configuration object for the LLM.
         """
         self.config = config
+        print("[bold green]Runner init...")
 
     async def run(self, prompt: str) -> str:
         """
@@ -30,6 +32,7 @@ class LLMRunner:
             str: The LLM response text.
         """
         provider = self.config.provider.lower()
+        print("[bold magenta]Using provider  - %s" % provider)
 
         if provider == "openai":
             return await call_llm_openai(self.config, prompt)
