@@ -38,7 +38,7 @@ llmworkbook version
 
 - **Test LLM Connectivity:**
   ```bash
-  llmworkbook test YOUR_API_KEY --model_name gpt-4
+  llmworkbook test YOUR_API_KEY --model gpt-4
   ```
 
 - **See Version of package:**

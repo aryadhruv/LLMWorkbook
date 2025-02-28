@@ -6,6 +6,7 @@ from .config import LLMConfig
 from .runner import LLMRunner
 from .integrator import LLMDataFrameIntegrator
 from .wrappers import WrapDataFrame, WrapDataArray, WrapPromptList
+from .utilities import sanitize_prompt, unpack_json_responses
 
 __all__ = [
     "LLMConfig",
@@ -14,4 +15,6 @@ __all__ = [
     "WrapDataFrame",
     "WrapDataArray",
     "WrapPromptList",
+    "sanitize_prompt",
+    "unpack_json_responses",
 ]

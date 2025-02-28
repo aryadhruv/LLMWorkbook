@@ -101,20 +101,20 @@ def wrap_prompts(prompts_file: str, output_file: str) -> None:
     print(f"✅ Wrapped Prompts saved to {output_file}")
 
 
-def test_llm(api_key: str, model_name: str = "gpt-3.5-turbo") -> None:
+def test_llm(api_key: str, model: str = "gpt-3.5-turbo") -> None:
     """
     Tests the LLM connection by sending a sample prompt.
 
     Args:
         api_key (str): API key for the LLM provider.
-        model_name (str, optional): Model name to use for testing. Defaults to "gpt-3.5-turbo".
+        model (str, optional): Model name to use for testing. Defaults to "gpt-3.5-turbo".
     """
     config = LLMConfig(
         provider="openai",
         api_key=api_key,
         system_prompt="User is testing connection. Respond by saying Hi and a haiku.",
         options={
-            "model_name": model_name,
+            "model": model,
         },
     )
 
@@ -208,7 +208,7 @@ def main() -> None:
     )
     parser_test.add_argument("api_key", help="API key for the LLM provider")
     parser_test.add_argument(
-        "--model_name",
+        "--model",
         default="gpt-3.5-turbo",
         help="Optional: LLM model name (default: gpt-3.5-turbo)",
     )
@@ -232,7 +232,7 @@ def main() -> None:
     elif args.command == "wrap_prompts":
         wrap_prompts(args.prompts_file, args.output_file)
     elif args.command in ["test", "t"]:
-        test_llm(args.api_key, args.model_name)
+        test_llm(args.api_key, args.model)
     elif args.command in ["version", "v"]:
         print("LLMWORKBOOK version: %s", show_version())
     else:
