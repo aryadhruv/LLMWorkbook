@@ -8,7 +8,7 @@ Each provider function uses specific keys from the configuration’s `options` d
 
 **Configuration Keys in `options`:**
 
-- **`model`**  
+- **`model` (earlier 'model_name')**  
   - **Type:** `str`  
   - **Description:** Specifies the model to use for generating responses (e.g., `"gpt-4o-mini"`).  
   - **Default Behavior:** If not provided, the code defaults to `"gpt-4o-mini"`.

@@ -29,7 +29,7 @@ def main():
         provider="openai",
         system_prompt="Process these Data rows as per the provided prompt",
         options={
-            "model_name": "gpt-4o-mini",
+            "model": "gpt-4o-mini",
             "temperature": 1,
             "max_tokens": 1024,
         },

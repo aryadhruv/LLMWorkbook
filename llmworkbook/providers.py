@@ -1,11 +1,16 @@
 import os
 from typing import Optional
+import warnings
 import aiohttp
+
+from .config import LLMConfig
 
 from openai import OpenAI
 
+from rich import print
 
-async def call_llm_openai(config, prompt: str) -> str:
+
+async def call_llm_openai(config : LLMConfig, prompt: str) -> str:
     """
     Calls OpenAI's completion/chat endpoint asynchronously.
 
@@ -15,6 +20,10 @@ async def call_llm_openai(config, prompt: str) -> str:
     Returns:
         str: The LLM response text.
     """
+
+    if config.options.get("model_name"):
+        print("[bold red]⚠️ 'model_name' is deprecated![/bold red] Use [green]'model'[/green] instead.")
+        raise DeprecationWarning ("'model_name' is deprecated, use 'model' instead.")
 
     messages = []
     if config.system_prompt:
