@@ -1,9 +1,12 @@
 """
-Example usage script for OpenAI's response format.
+Example usage script for OpenAI's response format with unpacking feature.
+The utility unpack_json_responses allows user to unpack the json response into various columns.
+
+This utility support - Dataframe, Array, List.
 """
 
 import pandas as pd
-from llmworkbook import LLMConfig, LLMRunner, LLMDataFrameIntegrator
+from llmworkbook import LLMConfig, LLMRunner, LLMDataFrameIntegrator, unpack_json_responses
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -45,14 +48,13 @@ def main():
         prompt_column="prompt_text", response_column="llm_response", async_mode=True
     )
 
-    print("DataFrame with LLM responses:\n", updated_df)
+    # 5. Unpack JSON responses
+    updated_df = unpack_json_responses(updated_df)
 
-    #Print Expected output - 
-    # {
-    # "subject": "The cat",
-    # "verb": "chased",
-    # "object": "the mouse"
-    # }
+    print("DataFrame with Unpacked LLM responses:\n", updated_df)
+
+    updated_df.to_excel("testdf.xlsx")
+
 
 if __name__ == "__main__":
     main()
