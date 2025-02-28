@@ -32,11 +32,6 @@ def sanitize_prompt(prompt: Union[str, List[str], pd.Series, np.ndarray]) -> Uni
         
         # Remove special characters that could cause issues
         text = re.sub(r'[\\`*_{}[\]()#+.!$]', '', text)
-        
-        # Limit length
-        max_length = 1000
-        if len(text) > max_length:
-            text = text[:max_length] + "..."
             
         # Replace potentially harmful patterns
         text = text.replace("javascript:", "")
