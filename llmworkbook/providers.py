@@ -32,11 +32,13 @@ async def call_llm_openai(config : LLMConfig, prompt: str) -> str:
 
     client = OpenAI(api_key=config.api_key or os.environ["OPENAI_API_KEY"])
 
-    completion = client.chat.completions.create(
-        model=config.options["model"] or "gpt-4o-mini",
-        messages=messages,
-        temperature=config.options["temperature"],
-    )
+    options = {
+        "model": config.options.get("model", "gpt-4o-mini"),
+        "messages": messages,
+        }
+    options.update({k: v for k, v in config.options.items() if k not in options})
+
+    completion = client.chat.completions.create(**options)
 
     try:
         return completion.choices[0].message.content
