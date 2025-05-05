@@ -4,7 +4,7 @@ Runner module to handle the actual LLM call.
 
 from .config import LLMConfig
 from .utils import sync_to_async
-from .providers import call_llm_ollama, call_llm_openai, call_llm_gpt4all
+from .providers import call_llm_ollama, call_llm_openai, call_llm_gpt4all, call_llm_anthropic
 from rich import print
 
 
@@ -56,6 +56,10 @@ class LLMRunner:
                 return await call_llm_gpt4all(self, prompt, url=url)
             else:
                 return await call_llm_gpt4all(self, prompt)
+            
+        
+        if provider == "anthropic":
+            return await call_llm_anthropic(self.config, prompt)
 
         raise NotImplementedError(f"Provider {provider} is not supported yet.")
 
