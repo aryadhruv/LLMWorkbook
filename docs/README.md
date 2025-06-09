@@ -1,19 +1,26 @@
+---
+layout: page
+title: Documentation
+permalink: /docs/
+---
+
 # Documentation Index
 
 Welcome to the documentation for **LLMWorkbook**. Below is the index of all available documents:
 
-Topics - 
-- [Batch and Row Processing](Batch%20and%20Row%20Processing.md)
-- [CLI Usage](CLI%20Usage.md)
-- [Wrapping](wrapping.md)
+## Core Topics
+- [Batch and Row Processing](Batch%20and%20Row%20Processing.html)
+- [CLI Usage](CLI%20Usage.html)
+- [Data Wrapping](wrapping.html)
 
-- [Providers](Providers)
-- - [GPTALL](Providers/Gpt4All.md)
-- - [Ollama](Providers/Ollama.md)
-- - [OpenAI](Providers/OpenAI.md)
+## Providers
+- [GPT4All](Providers/Gpt4All.html)
+- [Ollama](Providers/Ollama.html) 
+- [OpenAI](Providers/OpenAI.html)
+- [Anthropic](Providers/Anthropic.html)
 
-- [Utilities](Utilities)
-- - [Sanitize Prompt](Utilities/Sanitize%20Prompt.md)
-- - [Unpack Json Response](Utilities/Unpack%20Json%20Response.md)
+## Utilities
+- [Sanitize Prompt](Utilities/Sanitize%20Prompt.html)
+- [Unpack JSON Response](Utilities/Unpack%20Json%20Response.html)
 
 
