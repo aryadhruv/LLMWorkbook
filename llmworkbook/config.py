@@ -24,7 +24,7 @@ class LLMConfig:  # pylint: disable=too-few-public-methods
         Initializes the LLM configuration.
 
         Args:
-            provider (str): The name of the LLM provider (e.g., "openai", "azure_openai").
+            provider (str): The name of the LLM provider. Available providers - openai, ollama, gpt4all, anthropic.
             api_key (str): The API key to authenticate requests to the LLM provider.
             system_prompt (str, optional): System-level prompt to guide the LLM.
             options (Dict, optional): Additional parameters for the model configuration, including:

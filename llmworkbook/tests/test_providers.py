@@ -2,7 +2,7 @@
 import pytest
 from unittest.mock import AsyncMock, patch
 
-from ..providers import call_llm_openai, call_llm_ollama, call_llm_gpt4all
+from ..providers import call_llm_openai, call_llm_ollama, call_llm_gpt4all, call_llm_anthropic
 
 
 class MockConfig:
@@ -137,3 +137,23 @@ async def test_call_llm_gpt4all_api_failure():
 
     assert response == "Error: 400, Bad Request"
     mock_post.assert_called_once()
+
+@pytest.mark.asyncio
+async def test_call_llm_anthropic():
+    """Test Anthropic LLM call with mocked response."""
+    config = MockConfig(
+        api_key="test-anthropic-key",
+        system_prompt="Be helpful.",
+        options={"model": "claude-3-haiku-20240307", "max_tokens": 256},
+    )
+    prompt = "Explain photosynthesis."
+
+    # Mock the Claude API response format
+    mock_response = AsyncMock()
+    mock_response.content = [{"type": "text", "text": "Mocked Claude response"}]
+
+    with patch("anthropic.resources.messages.Messages.create", return_value=mock_response) as mock_create:
+        response = await call_llm_anthropic(config, prompt)
+
+    assert response == "Mocked Claude response"
+    mock_create.assert_called_once()

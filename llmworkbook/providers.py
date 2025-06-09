@@ -9,6 +9,8 @@ import aiohttp
 from .config import LLMConfig
 
 from openai import OpenAI
+import anthropic
+from anthropic.types import Message
 
 from rich import print
 
@@ -153,3 +155,40 @@ async def call_llm_gpt4all(config, prompt: str, url: Optional[str] = None) -> st
                     return f"Error: {response.status}, {await response.text()}"
         except Exception as e:
             return f"Exception: {str(e)}"
+
+async def call_llm_anthropic(config: LLMConfig, prompt: str) -> str:
+    """
+    Asynchronously calls Anthropic's Claude chat API.
+
+    Args:
+        config (LLMConfig): Configuration including API key, model, system prompt, and other options.
+        prompt (str): The user message to send.
+
+    Returns:
+        str: The content of Claude's response.
+    """
+
+    client = anthropic.Anthropic(
+        api_key=config.api_key or os.environ.get("ANTHROPIC_API_KEY")
+    )
+
+    model = config.options.get("model", "claude-3-sonnet-20240229")
+    max_tokens = config.options.get("max_tokens", 1024)
+
+    messages = []
+    if config.system_prompt:
+        messages.append({"role": "system", "content": config.system_prompt})
+    messages.append({"role": "user", "content": prompt})
+
+    # Claude expects only user/assistant roles and the system prompt as a separate param
+    response: Message = client.messages.create(
+        model=model,
+        max_tokens=max_tokens,
+        system=config.system_prompt,
+        messages=[{"role": m["role"], "content": m["content"]} for m in messages if m["role"] != "system"]
+    )
+
+    try:
+        return response.content[0]["text"] if response.content else ""
+    except Exception as e:
+        return f"Error parsing Claude response: {e}"
