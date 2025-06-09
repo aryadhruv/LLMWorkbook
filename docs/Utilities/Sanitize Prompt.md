@@ -1,3 +1,9 @@
+---
+layout: page
+title: Sanitize Prompt
+permalink: /docs/utilities/sanitize-prompt/
+---
+
 # **sanitize_prompt Utility Documentation**
 
 ## **Overview**

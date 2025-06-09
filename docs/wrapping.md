@@ -1,3 +1,9 @@
+---
+layout: page
+title: Data Wrapping
+permalink: /docs/wrapping/
+---
+
 # LLMWORKBOOK WRAPPERS
 
 This feature provides tools to transform your data into a format ready for Large Language Models (LLMs). It offers three concrete implementations to handle different data source types:

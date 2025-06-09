@@ -1,3 +1,9 @@
+---
+layout: page
+title: Batch and Row Processing
+permalink: /docs/batch-row-processing/
+---
+
 # **LLMWorkbook - Batch and Row Processing Documentation**
 
 ## **Overview**

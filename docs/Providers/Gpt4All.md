@@ -1,3 +1,9 @@
+---
+layout: page
+title: GPT4All
+permalink: /docs/providers/gpt4all/
+---
+
 # LLMWORKBOOK Provider - GPT4ALL
 
 Each provider function uses specific keys from the configuration’s `options` dictionary. In addition to these, you can also set a `system_prompt` (outside of `options`) and—where applicable—an API key (for OpenAI). Below are the options available for each provider.
