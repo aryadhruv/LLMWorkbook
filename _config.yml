@@ -19,11 +19,10 @@ author:
 # Social links
 github_username: aryadhruv
 
-# Navigation - using existing docs structure
+# Navigation
 header_pages:
-  - index.md
-  - docs/README.md
-  - Examples/
+  - documentation.md
+  - examples.md
 
 # Plugins
 plugins:
@@ -33,11 +32,6 @@ plugins:
 
 # SEO
 lang: en
-
-# Include existing docs and examples
-include:
-  - docs/
-  - Examples/
 
 # Exclude from processing
 exclude:
