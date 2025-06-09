@@ -1,3 +1,8 @@
+---
+title: Anthropic
+permalink: /docs/providers/anthropic/
+---
+
 # LLMWORKBOOK Provider Anthropic
 
 Anthropic's Claude API has a distinct structure and accepts only specific parameters. This documentation explains how to configure and use the `call_llm_anthropic` function through the `LLMConfig` system in `llmworkbook`.

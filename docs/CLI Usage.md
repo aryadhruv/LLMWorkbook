@@ -1,3 +1,9 @@
+---
+layout: page
+title: CLI Usage
+permalink: /docs/cli-usage/
+---
+
 # LLMWORKBOOK CLI Usage
 
 `LLMWorkbook` provides a command-line interface (**CLI**) for wrapping data and testing LLM connectivity. This makes it easy to process DataFrames, arrays, and prompt lists without writing additional code.
