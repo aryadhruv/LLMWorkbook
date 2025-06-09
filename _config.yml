@@ -24,6 +24,12 @@ header_pages:
   - documentation.md
   - examples.md
 
+# Collections for proper routing
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:name/
+
 # Plugins
 plugins:
   - jekyll-feed
