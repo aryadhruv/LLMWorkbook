@@ -189,6 +189,6 @@ async def call_llm_anthropic(config: LLMConfig, prompt: str) -> str:
     )
 
     try:
-        return response.content[0].text if response.content else ""
+        return response.content[0]["text"] if response.content else ""
     except Exception as e:
         return f"Error parsing Claude response: {e}"
