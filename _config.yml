@@ -1,0 +1,55 @@
+title: LLMWorkbook
+description: "Effortlessly harness the power of LLMs on Excel and DataFrames—seamless, smart, and efficient!"
+baseurl: ""
+url: "https://aryadhruv.github.io/LLMWorkbook"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+# GitHub Pages specific
+repository: aryadhruv/LLMWorkbook
+
+# Site settings
+author:
+  name: Dhruv Arya
+  email: dhruv166arya@gmail.com
+
+# Social links
+github_username: aryadhruv
+
+# Navigation - using existing docs structure
+header_pages:
+  - index.md
+  - docs/README.md
+  - Examples/
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# SEO
+lang: en
+
+# Include existing docs and examples
+include:
+  - docs/
+  - Examples/
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/
+  - .pytest_cache/
+  - __pycache__/
+  - .git/
+  - .github/
+  - llmworkbook/
+  - scripts/
+  - poetry.lock
+  - pyproject.toml
