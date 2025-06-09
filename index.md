@@ -18,10 +18,10 @@ Welcome to the LLMWorkbook documentation site! This site provides comprehensive 
 
 ## Quick Navigation
 
-- **[📖 Documentation](docs/README.html)** - Complete documentation and guides
-- **[🚀 Examples](Examples/)** - Real-world usage examples
+- **[📖 Documentation](/documentation/)** - Complete documentation and guides
+- **[🚀 Examples](/examples/)** - Real-world usage examples
 - **[📦 Installation](#installation)** - Get started quickly
-- **[🔧 Provider Setup](docs/Providers/)** - Configure LLM providers
+- **[🔧 Provider Setup](/documentation/#llm-providers)** - Configure LLM providers
 
 ## Installation
 
