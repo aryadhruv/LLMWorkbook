@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "llmworkbook"
-version = "1.2.2"
+version = "1.2.1"
 description = "Effortlessly harness the power of LLMs on Excel and DataFrames—seamless, smart, and efficient!"
 authors = ["dhruv <dhruv166arya@gmail.com>"]
 license = "MIT"
@@ -21,9 +21,9 @@ classifiers = [
 ]
 
 [tool.poetry.urls]
-Homepage = "https://github.com/aryadhruv/LLMWorkbook"
+Homepage = "https://aryadhruv.github.io/LLMWorkbook/"
 Repository = "https://github.com/aryadhruv/LLMWorkbook"
-Documentation = "https://github.com/aryadhruv/LLMWorkbook"
+Documentation = "https://aryadhruv.github.io/LLMWorkbook/"
 Issues = "https://github.com/aryadhruv/LLMWorkbook/issues"
 
 [tool.poetry.scripts]

@@ -11,6 +11,12 @@
 
 **LLMWorkbook** is a Python package designed to seamlessly integrate Large Language Models (LLMs) into your workflow with tabular data, be it Excel, CSV, DataFrames/Arrays. This package allows you to easily configure an LLM, send prompts **row-wise** from any tabular datasets, and store responses back in the DataFrame with minimal effort.
 
+## 📖 **Documentation Website**
+
+**[Visit our complete documentation site →](https://aryadhruv.github.io/LLMWorkbook/)**
+
+For comprehensive guides, examples, and API reference, visit our dedicated documentation website.
+
 ---
 
 ## **Features**
