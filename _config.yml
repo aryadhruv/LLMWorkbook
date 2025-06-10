@@ -6,7 +6,14 @@ url: "https://aryadhruv.github.io/LLMWorkbook"
 # Build settings
 markdown: kramdown
 highlighter: rouge
-theme: jekyll-theme-midnight
+remote_theme: pages-themes/midnight@v0.2.0
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-remote-theme
 
 # GitHub Pages specific
 repository: aryadhruv/LLMWorkbook
