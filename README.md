@@ -27,7 +27,7 @@ For comprehensive guides, examples, and API reference, visit our dedicated docum
 
 ---
 
-## LLMWorkbook v1.3.2  🦦:
+## LLMWorkbook v1.3.3  🦦:
 ✔ Github page for a better developer experience
 ✔ Anthropic support
 
