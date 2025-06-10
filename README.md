@@ -27,10 +27,9 @@ For comprehensive guides, examples, and API reference, visit our dedicated docum
 
 ---
 
-## LLMWorkbook v0.2.2 new utilities 🦦:
-✔ New Utilities - Sanitize prompts, unpack json response
-✔ Rich Console Progress bar
-✔ Row-wise or batch-wise Processing – Choose what meets your need.
+## LLMWorkbook v1.3.2  🦦:
+✔ Github page for a better developer experience
+✔ Anthropic support
 
 ---
 
