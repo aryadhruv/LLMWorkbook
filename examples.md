@@ -10,46 +10,46 @@ Practical examples demonstrating LLMWorkbook usage with different providers and 
 
 ## LLM Provider Examples
 
-### [🤖 OpenAI Example](Examples/Example OpenAI.py)
+### [🤖 OpenAI Example](https://github.com/aryadhruv/LLMWorkbook/blob/main/Examples/Example%20OpenAI.py)
 Basic OpenAI GPT integration with configuration and usage.
 
-### [🧠 Anthropic Example](Examples/Example Anthropic.py)
+### [🧠 Anthropic Example](https://github.com/aryadhruv/LLMWorkbook/blob/main/Examples/Example%20Anthropic.py)
 Claude integration with Anthropic's API for conversational AI.
 
-### [🏠 Ollama Example](Examples/Example Ollama.py)
+### [🏠 Ollama Example](https://github.com/aryadhruv/LLMWorkbook/blob/main/Examples/Example%20Ollama.py)
 Local Ollama deployment and usage.
 
-### [🔧 GPT4All Example](Examples/Example GPT4ALL.py)
+### [🔧 GPT4All Example](https://github.com/aryadhruv/LLMWorkbook/blob/main/Examples/Example%20GPT4ALL.py)
 Local GPT4All integration for offline processing.
 
 ## Advanced OpenAI Features
 
-### [📋 Response Format](Examples/Example OpenAI Response Format.py)
+### [📋 Response Format](https://github.com/aryadhruv/LLMWorkbook/blob/main/Examples/Example%20OpenAI%20Response%20Format.py)
 Structured output formatting and response handling.
 
-### [📄 JSON Response Unpacked](Examples/Example OpenAI JSON Response Unpacked.py)
+### [📄 JSON Response Unpacked](https://github.com/aryadhruv/LLMWorkbook/blob/main/Examples/Example%20OpenAI%20JSON%20Response%20Unpacked.py)
 JSON parsing utilities and data extraction.
 
 ## Data Format Examples
 
-### [📊 DataFrames](Examples/Example DataFrames.py)
+### [📊 DataFrames](https://github.com/aryadhruv/LLMWorkbook/blob/main/Examples/Example%20DataFrames.py)
 Working with pandas DataFrames and LLM integration.
 
-### [📈 Excel](Examples/Example Excel.py)
+### [📈 Excel](https://github.com/aryadhruv/LLMWorkbook/blob/main/Examples/Example%20Excel.py)
 Excel workbook processing and manipulation.
 
-### [🔢 Arrays](Examples/Example Arrays.py)
+### [🔢 Arrays](https://github.com/aryadhruv/LLMWorkbook/blob/main/Examples/Example%20Arrays.py)
 Multi-dimensional array handling and processing.
 
 ## Processing Patterns
 
-### [⚡ Batch Processing](Examples/Example Batch Processing.py)
+### [⚡ Batch Processing](https://github.com/aryadhruv/LLMWorkbook/blob/main/Examples/Example%20Batch%20Processing.py)
 Efficient batch operations for large datasets.
 
-### [🔄 PromptSeries](Examples/Example PromptSeries.py)
+### [🔄 PromptSeries](https://github.com/aryadhruv/LLMWorkbook/blob/main/Examples/Example%20PromptSeries.py)
 Sequential prompt execution and workflow management.
 
-### [🧹 Sanitize Prompts](Examples/Example Sanitize Prompts.py)
+### [🧹 Sanitize Prompts](https://github.com/aryadhruv/LLMWorkbook/blob/main/Examples/Example%20Sanitize%20Prompts.py)
 Input cleaning and validation utilities.
 
 ## Quick Start Pattern
@@ -76,11 +76,11 @@ result = integrator.add_llm_responses(
     response_column="output_column",
     async_mode=True
 )
-```
+````
 
-## Links
+## Quick Links
 
-- [📁 All Examples on GitHub](https://github.com/aryadhruv/LLMWorkbook/tree/main/Examples)
 - [🏠 Home](/)
-- [📚 Documentation](/documentation/)
-- [🐛 Report Issues](https://github.com/aryadhruv/LLMWorkbook/issues)
+- [💡 Examples]({{ site.baseurl }}/examples/)
+- [📚 GitHub Docs](https://github.com/aryadhruv/LLMWorkbook/tree/main/docs)
+- [🐛 Issues](https://github.com/aryadhruv/LLMWorkbook/issues)
