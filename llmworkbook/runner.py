@@ -32,7 +32,7 @@ class LLMRunner:
             str: The LLM response text.
         """
         provider = self.config.provider.lower()
-        print("[bold magenta]Using provider  - %s" % provider)
+        # print("[bold magenta]Using provider  - %s" % provider)
 
         if provider == "openai":
             return await call_llm_openai(self.config, prompt)
