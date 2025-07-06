@@ -41,16 +41,17 @@ async def call_llm_openai(config: LLMConfig, prompt: str) -> str:
 
     options = {
         "model": config.options.get("model", "gpt-4o-mini"),
-        "messages": messages,
+        "input": prompt,
+        "instructions" : config.system_prompt if config.system_prompt else "Respond with emoji only :"
     }
     options.update({k: v for k, v in config.options.items() if k not in options})
 
-    completion = client.responses.create(**options)
+    response = client.responses.create(**options)
 
     try:
-        return completion.choices[0].message.content
+        return response.output[0].content[0].text
     except (KeyError, IndexError):
-        return str(completion)
+        return str(response)
 
 
 async def call_llm_ollama(config, prompt: str, url: Optional[str] = None) -> str:
