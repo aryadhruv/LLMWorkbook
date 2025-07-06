@@ -11,7 +11,7 @@
 
 **LLMWorkbook** is a Python package designed to seamlessly integrate Large Language Models (LLMs) into your workflow with tabular data, be it Excel, CSV, DataFrames/Arrays. This package allows you to easily configure an LLM, send prompts **row-wise** from any tabular datasets, and store responses back in the DataFrame with minimal effort.
 
-## 📖 **Documentation Website**
+## **Documentation Website**
 
 **[Visit our complete documentation site →](https://aryadhruv.github.io/LLMWorkbook/)**
 
@@ -27,9 +27,8 @@ For comprehensive guides, examples, and API reference, visit our dedicated docum
 
 ---
 
-## LLMWorkbook v1.3.3  🦦:
-✔ Github page for a better developer experience
-✔ Anthropic support
+## LLMWorkbook v1.4.3 🦦:
+✔ New OpenAI Responses Endpoint
 
 ---
 
@@ -113,7 +112,7 @@ Example code is available in the Git Repository for easy reference.
 ---
 ## **Future Roadmap**
 
-- Add support for more LLM providers (Anthropic Claude, Google VertexAI, Cohere, Groq, MistralAI).
+- Add support for more LLM providers (Google VertexAI, Cohere, Groq, MistralAI).
 - Add an interface frontend for low code applications.
 - Implement rate-limiting and token usage tracking.
 - Summarized history persisted across session to provide quick context for next session.
