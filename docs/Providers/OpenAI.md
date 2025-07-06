@@ -8,6 +8,9 @@ permalink: /docs/providers/openai/
 
 Each provider function uses specific keys from the configuration’s `options` dictionary. In addition to these, you can also set a `system_prompt` (outside of `options`) and—where applicable—an API key (for OpenAI). Below are the options available for each provider.
 
+
+Important - This API uses the latest Response endpoint from OpenAI instead of Chat completions. Please do refer to relevant documentation. As surface, the changes are made to be backward compatible and non-breaking.
+
 ---
 
 ### 1. OpenAI Provider (`call_llm_openai`)
