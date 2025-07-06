@@ -19,13 +19,18 @@ async def test_call_llm_openai():
     """Test OpenAI LLM call with mocked OpenAI response."""
     config = MockConfig()
     prompt = "Hello, world!"
+
+    mock_content = AsyncMock()
+    mock_content.text = "Mocked response text"
+    
+    mock_output = AsyncMock()
+    mock_output.content = [mock_content]
+
     mock_response = AsyncMock()
-    mock_response.output = [AsyncMock()]
-    mock_response.output[0].content = [AsyncMock()]
-    mock_response.choices[0].content[0].text = "Mocked response text"
+    mock_response.output = [mock_output]
 
     with patch(
-        "openai.resources.chat.completions.Completions.create",
+        "openai.resources.responses.Responses.create",
         return_value=mock_response,
     ) as mock_create:
         response = await call_llm_openai(config, prompt)
@@ -44,7 +49,7 @@ async def test_call_llm_openai_api_failure():
     mock_response.output = []
 
     with patch(
-        "openai.resources.chat.completions.Completions.create",
+        "openai.resources.responses.Responses.create",
         return_value=mock_response,
     ) as mock_create:
         response = await call_llm_openai(config, prompt)
