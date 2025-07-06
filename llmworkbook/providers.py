@@ -45,7 +45,7 @@ async def call_llm_openai(config: LLMConfig, prompt: str) -> str:
     }
     options.update({k: v for k, v in config.options.items() if k not in options})
 
-    completion = client.chat.completions.create(**options)
+    completion = client.responses.create(**options)
 
     try:
         return completion.choices[0].message.content
