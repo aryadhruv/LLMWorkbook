@@ -53,9 +53,9 @@ class LLMRunner:
 
             # Call the function conditionally
             if url:
-                return await call_llm_gpt4all(self, prompt, url=url)
+                return await call_llm_gpt4all(self.config, prompt, url=url)
             else:
-                return await call_llm_gpt4all(self, prompt)
+                return await call_llm_gpt4all(self.config, prompt)
             
         
         if provider == "anthropic":
