@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "llmworkbook"
-version = "1.4.3"
+version = "1.4.4"
 description = "Effortlessly harness the power of LLMs on Excel and DataFrames—seamless, smart, and efficient!"
 authors = ["dhruv <dhruv166arya@gmail.com>"]
 license = "MIT"
