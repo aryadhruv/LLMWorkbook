@@ -9,10 +9,10 @@ permalink: /docs/cli-usage/
 `LLMWorkbook` provides a command-line interface (**CLI**) for wrapping data and testing LLM connectivity. This makes it easy to process DataFrames, arrays, and prompt lists without writing additional code.
 
 #### **Installation**
-The CLI is installed automatically when you install `LLMWorkbook` via Poetry:
+The CLI is installed automatically when you install `LLMWorkbook`:
 
 ```bash
-poetry install
+pip install llmworkbook
 ```
 
 Once installed, you can use the `llmWorkbook` command.
