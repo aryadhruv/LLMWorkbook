@@ -33,7 +33,7 @@ def sanitize_prompt(
         text = text.strip()
 
         # Remove special characters that could cause issues
-        text = re.sub(r"[\\`*_{}[\]()#+.!$]", "", text)
+        text = re.sub(r"[\\`*_{}[\]()#+.!$]@", "", text)
 
         # Replace potentially harmful patterns
         text = text.replace("javascript:", "")
