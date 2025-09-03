@@ -16,7 +16,7 @@ def test_sanitize_prompt():
 
 
 def test_sanitize_prompt_list():
-    sample_list = [" Item 1! ", "Item 2?", "Item 3..."]
+    sample_list = [" Item 1! ", "Item 2}", "Item 3..."]
     sanitized = sanitize_prompt(sample_list)
     assert sanitized == ["Item 1", "Item 2", "Item 3"]
 
