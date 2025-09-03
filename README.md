@@ -126,7 +126,7 @@ Detailed documentation for each module is available in the [Documentation](docs)
     [OpenAI](docs/Providers/OpenAI.md)
     [Gpt4All](docs/Providers/Gpt4All.md)
     [Ollama](docs/Providers/Ollama.md)
-- [CLI Useage](docs/CLI%20Usage.md) file.
+- [CLI Usage](docs/CLI%20Usage.md) file.
 - [LLMDataFrameIntegrator - Row/Batch Processing](docs/Batch%20and%20Row%20Processing.md)
 
 

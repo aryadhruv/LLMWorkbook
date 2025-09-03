@@ -20,6 +20,7 @@ async def call_llm_openai(config: LLMConfig, prompt: str) -> str:
     Calls OpenAI's completion/chat endpoint asynchronously.
 
     Args:
+        config (LLMConfig): The configuration object for the LLM.
         prompt (str): The user prompt to send to the LLM.
 
     Returns:
